@@ -1,12 +1,25 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:aad_b2c_webview/aad_b2c_webview.dart';
+import 'package:mockito/mockito.dart';
+
+class MockBuildContext extends Mock implements BuildContext {}
 
 void main() {
-  // test('adds one to input values', () {
-  //   final calculator = Calculator();
-  //   expect(calculator.addOne(2), 3);
-  //   expect(calculator.addOne(-7), -6);
-  //   expect(calculator.addOne(0), 1);
-  // });
+  ADB2CEmbedWebView embedWebView;
+  MockBuildContext mockContext;
+
+  test('testing embed weview', () {
+    embedWebView = ADB2CEmbedWebView(
+        url: '',
+        clientId: '',
+        redirectUrl: '',
+        appRedirectRoute: '',
+        onRedirect: (BuildContext context) {});
+    mockContext = MockBuildContext();
+    var mockEmbedWebViewstate = embedWebView.createState().build(mockContext);
+
+    expect(mockEmbedWebViewstate, isNotNull);
+  });
 }

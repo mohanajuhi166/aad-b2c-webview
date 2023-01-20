@@ -1,18 +1,27 @@
 Azure AD B2C Embedded Webview
 ============================
 
-Azure AD B2C Embedded Webview is a very simple sample that demonstrates how to use the embedded web view to sign in users with Azure AD B2C.
-Currently, using Azure AD B2C redirects to browser. This package embeds the webview using flutter's appview and redirects the user as per onRedirect callback.
+Azure AD B2C Embedded Webview is a very simple Flutter package that demonstrates how to use the
+embedded web view to sign in users with Azure AD B2C. Currently, using Flutter packages
+
+- [appAuth](https://pub.dev/packages/flutter_appauth)
+  and [flutter_azure_b2c](https://pub.dev/packages/flutter_azure_b2c) redirects to browser and
+  doesn't provide in-app experience.
+
+This package embeds the web view of the user flow endpoint
+using [flutter_appview](https://pub.dev/packages/webview_flutter) and redirects the user as per
+onRedirect callback method.
 
 ## Features
 
-Embedded web view for Azure AD B2C
-Redirects to the route specified in redirectRoute after successful sign in
-Successfully secures the token in the app using flutter secure storage
-Navigates to screen in app after successful sign in
+Embedded web view for Azure AD B2C for providing in-app experience Redirects to the route specified
+in redirectRoute after successful sign in Successfully secures the id token or access token in the
+app using flutter secure storage Navigates to screen in app after successful sign in
 
 ## Getting started
+
 To use the package in your Flutter app, add the following code to your main.dart file:
+
 ```yaml
 dependencies:
   aad_b2c_webview: ^0.0.1
@@ -20,7 +29,7 @@ dependencies:
 
 ## Usage
 
-Example added in aad_b2c_webview/aad_b2c folder
+Example added in aad-b2c-webview/aad_b2c folder
 
 ```dart
 @override
@@ -55,13 +64,28 @@ Widget build(BuildContext context) {
     routes: {
       // When navigating to the "/" route, build the Create Account widget.
 
-      '/': (context) => const ADB2CEmbedWebView(
+      '/': (context) =>
+      const ADB2CEmbedWebView(
         url: '<user_flow_endpoint>',
+        clientId: '<client_id_of_user_flow>',
         redirectUrl: '<redirect_uri_of_user_flow>',
-        redirectRoute: '<route_to_redirect_to_after_sign_in>',
+        appRedirectRoute: '<route_to_redirect_to_after_sign_in>',
         onRedirect: onRedirect,
       ),
     },
   );
 }
 ```
+
+## Parameters Used In ADB2CEmbedWebView
+
+* url: This is the user flow/policy endpoint
+
+* clientId: This is client id of the application used for redirection within user flow
+
+* redirectUrl: This is redirect Url of the application used for redirection within user flow
+
+* appRedirectRoute: This is the in-app route to navigate to, after successful sign in on redirect
+
+* onRedirect: This is the callback method to handle the redirect url. This method is called when the
+  redirect url is hit. This method should return the route to navigate to after successful sign in.
